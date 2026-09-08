@@ -386,15 +386,22 @@ footer strong{ color:var(--texto-fraco); }
   .momentos-fotos{ grid-template-columns:repeat(2, 1fr); }
 }
 @media (max-width: 760px){
+  html{ scroll-behavior:auto; }
+
+  :root{
+    --sombra:0 6px 14px -8px rgba(0,0,0,.4);
+  }
+
   section{ padding:64px 0; }
 
-  header{ backdrop-filter:blur(8px) saturate(140%); -webkit-backdrop-filter:blur(8px) saturate(140%); }
+  /* Sem blur pesado no header/menu no mobile — troca por fundo sólido */
+  header{ backdrop-filter:none; -webkit-backdrop-filter:none; background:rgba(6,10,20,.96); }
 
   nav.primary-nav{
     position:fixed; top:0; right:0; height:100vh; height:100dvh; width:min(78vw, 320px);
-    background:rgba(6,10,20,.98); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px);
+    background:rgba(6,10,20,.99); backdrop-filter:none; -webkit-backdrop-filter:none;
     border-left:1px solid var(--line);
-    transform:translateX(100%); transition:transform .35s ease;
+    transform:translateX(100%); transition:transform .3s ease;
     padding:100px 28px 40px; overflow-y:auto;
   }
   .menu-toggle-input:checked ~ nav.primary-nav{ transform:translateX(0); }
@@ -403,19 +410,40 @@ footer strong{ color:var(--texto-fraco); }
   nav.primary-nav a::after{ display:none; }
   .menu-toggle{ display:flex; }
 
-  .hero h1{ max-width:none; }
+  /* Fundo em grade decorativo removido no mobile (é só estética, custa composição) */
+  body::before{ display:none; }
+
+  /* Brilho de fundo do hero: sem animação, fica estático */
   .hero-bg-glow{ animation:none; }
+
+  /* Textos do hero aparecem direto, sem efeito de "subir e aparecer" */
+  .hero .kicker, .hero h1, .hero p, .hero-actions, .scroll-cue{
+    animation:none; opacity:1; transform:none;
+  }
+  .scroll-cue .line{ animation:none; }
+
+  /* Slideshow do hero: mostra só a 1ª foto, sem cross-fade contínuo (é o que mais pesa) */
+  .hero-slideshow img{ animation:none; opacity:0; }
+  .hero-slideshow img:first-child{ opacity:1; }
+
+  .hero h1{ max-width:none; }
   .prof-grid{ grid-template-columns:1fr; }
+  .prof-card{ transition:none; }
   .prof-card:hover{ transform:none; }
   .professor-fotos{ grid-template-columns:repeat(2, 1fr); }
   .projetos-inline{ grid-template-columns:1fr; }
+  .projeto-chip{ transition:none; }
+  .projeto-chip:hover{ transform:none; }
   .momentos-fotos{ grid-template-columns:1fr 1fr; }
+  .momento-foto img{ transition:none; }
+  .momento-foto:hover img{ transform:none; }
+  .gallery-item img{ transition:none; }
+  .gallery-item:hover img{ transform:none; }
 
-  /* Reduz efeitos 3D/sombras pesadas para telas e aparelhos mais fracos */
-  .historia-card{ transform:none; }
+  /* Sem tilt 3D nem sombra pesada no card "Nossa História" */
+  .historia-card{ transform:none; transition:none; }
   .historia-card:hover{ transform:none; }
   .historia-card img{ height:280px; }
-  body::before{ position:absolute; }
 }
 
 @media (max-width: 420px){
